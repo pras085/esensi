@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "1082588580327",
+    "project_id": "github-presence",
+    "storage_bucket": "github-presence.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082588580327:android:bb2bbf5466fff4a9ac5542",
+        "android_client_info": {
+          "package_name": "com.github.presence"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082588580327-otlggp3ipgdeg9gnmkjrp4r3rd6l5bci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFatPUPuuXUc5N6njY0qsJZejf1hbUsa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082588580327-otlggp3ipgdeg9gnmkjrp4r3rd6l5bci.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1082588580327-3n1g0f6fd0cifeqf2geggqj3klq0r3pc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mrezkys.presence"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082588580327:android:5d0a495330675a29ac5542",
+        "android_client_info": {
+          "package_name": "com.ta.esensi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082588580327-kpersbqmjf9pnormgd1odgsip0vv9md1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ta.esensi",
+            "certificate_hash": "6d925faab791e8262706136e75a52087f49cf4f8"
+          }
+        },
+        {
+          "client_id": "1082588580327-otlggp3ipgdeg9gnmkjrp4r3rd6l5bci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFatPUPuuXUc5N6njY0qsJZejf1hbUsa8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082588580327-otlggp3ipgdeg9gnmkjrp4r3rd6l5bci.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1082588580327-3n1g0f6fd0cifeqf2geggqj3klq0r3pc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mrezkys.presence"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

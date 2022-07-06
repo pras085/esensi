@@ -1,0 +1,91 @@
+name: presence
+version: 1.0.0+4
+publish_to: none
+description: A new Flutter project.
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  camera: ^0.9.4+19
+  # change_app_package_name: ^1.1.0
+  cloud_firestore: ^1.0.7
+  # convex_bottom_bar: 3.0.0
+  cupertino_icons: ^1.0.2
+  firebase_auth: ^1.0.1
+  firebase_core: ^1.0.1
+  firebase_storage: ^8.0.0
+  flutter:
+    sdk: flutter
+  flutter_html: ^0.11.1
+  flutter_launcher_icons: ^0.9.3
+  flutter_native_splash: ^1.2.0
+  flutter_svg: 1.0.3
+  # flutter_svg_provider: ^1.0.3
+  geocoding: 2.0.4
+  geolocator: ^7.7.1
+  get: 4.6.1
+  # google_maps: ^6.2.0
+  google_ml_kit: ^0.5.0
+  # google_mlkit_face_detection: ^0.3.0
+  # image: ^3.0.2
+  image_picker: 0.8.5
+  intl: 0.17.0
+  # launch_review: ^3.0.1
+  lottie: ^1.3.0
+  maps_launcher: ^2.0.1
+  path_provider: ^2.0.1
+  shared_preferences: ^2.0.13
+  syncfusion_flutter_datepicker: ^20.1.51
+  tflite_flutter: ^0.8.0
+  uuid: ^3.0.6
+
+dev_dependencies:
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter_native_splash:
+  color: "#35858B"
+  image: assets/vector/logo_splash.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/logo.png"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/mobilefacenet.tflite
+    - assets/images/
+    - assets/icons/
+    - assets/fonts/
+    - assets/vector/
+  fonts:
+    - family: poppins
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Poppins/Poppins-ExtraBold.ttf
+          weight: 800
+    - family: inter
+      fonts:
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/inter/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/inter/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/inter/Inter-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/inter/Inter-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/inter/Inter-Black.ttf
+          weight: 900
