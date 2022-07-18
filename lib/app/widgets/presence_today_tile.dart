@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:presence/app/routes/app_pages.dart';
 import 'package:presence/app/style/app_color.dart';
 
 class PresenceTodayTile extends StatelessWidget {
-  final Map<String, dynamic> presenceData;
+  // final Map<String, dynamic> presenceData;
   final Map<String, dynamic> dataUser;
 
-  PresenceTodayTile({this.presenceData, this.dataUser});
+  PresenceTodayTile({this.dataUser});
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () => Get.toNamed(Routes.DETAIL_PRESENCE,
-      //     arguments: {"presensi": presenceData, "user": dataUser}),
+      onTap: () => Get.toNamed(
+        Routes.RIWAYAT_PRESENCE_CHOSEN,
+        arguments: dataUser['uid'],
+      ),
       borderRadius: BorderRadius.circular(8),
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -24,54 +25,73 @@ class PresenceTodayTile extends StatelessWidget {
             color: AppColor.primaryExtraSoft,
           ),
         ),
-        padding: EdgeInsets.only(left: 24, top: 20, right: 29, bottom: 20),
+        padding: EdgeInsets.only(left: 10, top: 20, right: 10, bottom: 20),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text('${dataUser['name']}'),
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Masuk",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      (presenceData["masuk"] == null)
-                          ? "-"
-                          : "${DateFormat.jm('id_ID').format(DateTime.parse(presenceData["masuk"]["date"]))}",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      style: BorderStyle.solid,
+                      color: AppColor.navigationColor,
+                      width: 2)),
+              child: ClipOval(
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  child: Image.network(
+                    (dataUser["avatar"] == null || dataUser['avatar'] == "")
+                        ? "https://ui-avatars.com/api/?name=${dataUser['name']}/"
+                        : dataUser['avatar'],
+                    fit: BoxFit.cover,
+                  ),
+                  // child: Image.network(user['avatar'] != null ? ),
                 ),
-                SizedBox(width: 24),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Keluar",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 6),
-                    Text(
-                      (presenceData["keluar"] == null)
-                          ? "-"
-                          : "${DateFormat.jm('id_ID').format(DateTime.parse(presenceData["keluar"]["date"]))}",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
+              ),
+            ),
+            SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  (dataUser["name"] == null) ? "-" : dataUser["name"],
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  (dataUser["email"] == null) ? "-" : dataUser["email"],
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+            Spacer(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  (dataUser["employee_id"] == null)
+                      ? "-"
+                      : dataUser["employee_id"],
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  (dataUser["job"] == null) ? "-" : dataUser["job"],
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),

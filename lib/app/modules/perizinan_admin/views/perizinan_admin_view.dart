@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:presence/app/modules/perizinan_admin/controllers/perizinan_admin_controller.dart';
 import 'package:presence/app/style/app_color.dart';
 import 'package:presence/app/widgets/perizinan_admin_tile.dart';
-import 'package:presence/app/widgets/perizinan_tile.dart';
 
 class PerizinanAdminView extends GetView<PerizinanAdminController> {
   @override
@@ -14,7 +13,7 @@ class PerizinanAdminView extends GetView<PerizinanAdminController> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'Izin Hari Ini',
+          'Approval Perizinan',
           style: TextStyle(
             color: AppColor.whiteColor,
             fontSize: 14,

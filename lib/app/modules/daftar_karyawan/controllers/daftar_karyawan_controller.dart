@@ -25,8 +25,7 @@ class DaftarKaryawanController extends GetxController {
   Stream<QuerySnapshot> streamPegawai() async* {
     yield* firestore
         .collection("employee")
-        .where('role', isEqualTo: 'employee')
-        // .orderBy('role', descending: true)
+        .orderBy('employee_id', descending: false)
         .snapshots();
   }
 }

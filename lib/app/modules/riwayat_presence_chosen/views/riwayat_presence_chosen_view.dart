@@ -5,19 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:presence/app/widgets/presence_today_tile.dart';
 
 import '../../../style/app_color.dart';
-import '../controllers/presensi_today_controller.dart';
+import '../../../widgets/presence_tile.dart';
+import '../controllers/riwayat_presence_chosen_controller.dart';
 
-class PresensiTodayView extends GetView<PresensiTodayController> {
+class RiwayatPresenceChosenView
+    extends GetView<RiwayatPresenceChosenController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'Presensi Karyawan',
+          'Riwayat Presensi',
           style: TextStyle(
             color: AppColor.whiteColor,
             fontSize: 14,
@@ -30,9 +31,9 @@ class PresensiTodayView extends GetView<PresensiTodayController> {
             color: AppColor.whiteColor,
           ),
         ),
-        centerTitle: true,
-        elevation: 0,
         backgroundColor: AppColor.navigationColor,
+        elevation: 0,
+        centerTitle: true,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
           child: Container(
@@ -42,35 +43,31 @@ class PresensiTodayView extends GetView<PresensiTodayController> {
           ),
         ),
       ),
-      body: GetBuilder<PresensiTodayController>(
+      body: GetBuilder<RiwayatPresenceChosenController>(
         builder: (con) {
+          log(Get.arguments);
           return FutureBuilder<QuerySnapshot>(
-            future: controller.getAllUser(),
+            future: controller.getAllPresence(Get.arguments),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return Center(
                       child: CircularProgressIndicator(
-                          color: AppColor.navigationColor));
+                    color: AppColor.navigationColor,
+                  ));
                 case ConnectionState.active:
                 case ConnectionState.done:
-                  var data = snapshot.data;
-                  // print("datanya : ${snapshot.data.size}");
+                  var data = snapshot.data.docs;
                   return ListView.separated(
-                    itemCount: data.size,
+                    itemCount: data.length,
                     shrinkWrap: true,
                     physics: BouncingScrollPhysics(),
                     padding: EdgeInsets.all(20),
                     separatorBuilder: (context, index) => SizedBox(height: 16),
                     itemBuilder: (context, index) {
-                      var dataUser = data.docs[index].data();
-                      log('Hadaras s :$dataUser');
-                      // print("data :${dataUser['name']}");
-                      // return Container(
-                      //   child: Text(dataUser['uid']),
-                      // );
-                      return Container(
-                        child: PresenceTodayTile(dataUser: dataUser),
+                      var presenceData = data[index].data();
+                      return PresenceTile(
+                        presenceData: presenceData,
                       );
                     },
                   );

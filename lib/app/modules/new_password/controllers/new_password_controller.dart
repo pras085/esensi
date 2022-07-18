@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,8 @@ import 'package:presence/app/controllers/page_index_controller.dart';
 import 'package:presence/app/routes/app_pages.dart';
 import 'package:presence/app/widgets/toast/custom_toast.dart';
 import 'package:presence/company_data.dart';
+
+import '../../sign-up/views/sign_up_view.dart';
 
 class NewPasswordController extends GetxController {
   final pageIndexController = Get.find<PageIndexController>();
@@ -16,6 +19,7 @@ class NewPasswordController extends GetxController {
   RxBool newPassCObs = true.obs;
 
   FirebaseAuth auth = FirebaseAuth.instance;
+  CameraDescription cameraDescription;
 
   void newPassword() async {
     if (passC.text.isNotEmpty && confirmPassC.text.isNotEmpty) {
@@ -24,6 +28,7 @@ class NewPasswordController extends GetxController {
         if (passC.text != CompanyData.defaultPassword) {
           _updatePassword();
           isLoading.value = false;
+          await Get.to(SignUpView(cameraDescription: cameraDescription));
         } else {
           CustomToast.errorToast('Error', 'Kamu harus mengganti password');
           isLoading.value = false;

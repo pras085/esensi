@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,29 @@ class AddEmployeeController extends GetxController {
   TextEditingController jobC = TextEditingController();
   TextEditingController adminPassC = TextEditingController();
 
+  String selectedJabatan;
+
+  // var jabatanChoose = ''.obs;
+  var jabatanDataList = <String>['IT', 'Sales', 'Supervisor', 'Admin'];
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  void setSelected(String value) {
+    selectedJabatan = value;
+    update();
+    log('$selectedJabatan');
+    // changeJabatan(selectedJabatan);
+  }
+  //  changeJabatan(String jabatanChosen) {switch (selectedJabatan) {
+  //    case 'IT':
+  //      Get.updateLocale(l)
+  //      break;
+  //    default:
+  //  }}
+
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -39,7 +64,7 @@ class AddEmployeeController extends GetxController {
     if (idC.text.isNotEmpty &&
         nameC.text.isNotEmpty &&
         emailC.text.isNotEmpty &&
-        jobC.text.isNotEmpty) {
+        selectedJabatan.isNotEmpty) {
       isLoading.value = true;
       CustomAlertDialog.confirmAdmin(
         title: 'Konfirmasi Admin',
@@ -59,7 +84,7 @@ class AddEmployeeController extends GetxController {
       );
     } else {
       isLoading.value = false;
-      CustomToast.errorToast('Error', 'you need to fill all form');
+      CustomToast.errorToast('Error', 'Semua form harus diisi');
     }
   }
 
@@ -90,8 +115,9 @@ class AddEmployeeController extends GetxController {
             "name": nameC.text,
             "email": emailC.text,
             "role": defaultRole,
-            "job": jobC.text,
+            "job": selectedJabatan,
             "created_at": DateTime.now().toIso8601String(),
+            "uid": uid,
           });
 
           await employeeCredential.user.sendEmailVerification();
@@ -106,15 +132,15 @@ class AddEmployeeController extends GetxController {
 
           Get.back(); //close dialog
           Get.back(); //close form screen
-          CustomToast.successToast('Success', 'success adding employee');
+          CustomToast.successToast('Success', 'Sukses menambahkan karyawan');
 
           isLoadingCreatePegawai.value = false;
         }
       } on FirebaseAuthException catch (e) {
         isLoadingCreatePegawai.value = false;
         if (e.code == 'weak-password') {
-          print('The password provided is too weak.');
-          CustomToast.errorToast('Error', 'default password too short');
+          print('Password terlalu lemah .');
+          CustomToast.errorToast('Error', 'Kata sandi terlalu lemah');
         } else if (e.code == 'email-already-in-use') {
           print('Akun sudah didaftarkan.');
           CustomToast.errorToast('Error', 'Akun sudah didaftarkan');

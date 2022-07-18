@@ -25,34 +25,19 @@ class PresensiTodayController extends GetxController {
   void onClose() {}
 
   Future<QuerySnapshot> getAllPresenceToday() async {
-    QuerySnapshot query = await firestore
-        .collection("presence")
-        .where('date', isEqualTo: todayDocId)
-        .get();
-    return query;
-  }
-
-  Future<QuerySnapshot> getAllPresence() async {
-    String uid = auth.currentUser.uid;
-    QuerySnapshot query = await firestore
-        .collection("employee")
-        .doc(uid)
-        .collection("presence")
-        .where("date", isLessThan: end.toIso8601String())
-        .orderBy(
-          "date",
-          descending: true,
-        )
-        .get();
+    QuerySnapshot query = await firestore.collection("presence").get();
     return query;
   }
 
   Future<QuerySnapshot> getAllUser() async {
-    QuerySnapshot query = await firestore.collection("employee").get();
+    QuerySnapshot query = await firestore
+        .collection("employee")
+        .orderBy('employee_id', descending: false)
+        .get();
     return query;
   }
 
-  Stream<DocumentSnapshot> streamTodayPresence(String uid) async* {
+  Stream<DocumentSnapshot> streamAllPresensi(String uid) async* {
     yield* firestore
         .collection("employee")
         .doc(uid)

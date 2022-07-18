@@ -62,7 +62,7 @@ class PresenceCard extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(bottom: 6),
                         child: Text(
-                          "check in",
+                          "Masuk",
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.white,
@@ -101,7 +101,7 @@ class PresenceCard extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(bottom: 6),
                         child: Text(
-                          "check out",
+                          "Keluar",
                           style: TextStyle(
                             fontSize: 12,
                             color: Colors.white,

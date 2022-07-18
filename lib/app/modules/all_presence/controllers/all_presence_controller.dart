@@ -29,7 +29,8 @@ class AllPresenceController extends GetxController {
           .doc(uid)
           .collection("presence")
           .where("date", isGreaterThan: start.toIso8601String())
-          .where("date", isLessThan: end.add(Duration(days: 1)).toIso8601String())
+          .where("date",
+              isLessThan: end.add(Duration(days: 1)).toIso8601String())
           .orderBy(
             "date",
             descending: true,

@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:presence/app/style/app_color.dart';
 
 class KaryawanTile extends StatelessWidget {
   final Map<String, dynamic> karyawanData;
   KaryawanTile({this.karyawanData});
+
   @override
   Widget build(BuildContext context) {
+    // log('${karyawanData['employee_id']}');
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -18,16 +22,31 @@ class KaryawanTile extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            padding: EdgeInsets.all(5),
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
-                color: AppColor.backgroundColor, shape: BoxShape.circle),
-            child: Icon(
-              Icons.person_pin,
-              color: AppColor.whiteColor,
+                shape: BoxShape.circle,
+                border: Border.all(
+                    style: BorderStyle.solid,
+                    color: AppColor.navigationColor,
+                    width: 2)),
+            child: ClipOval(
+              child: Container(
+                width: 40,
+                height: 40,
+                child: Image.network(
+                  (karyawanData["avatar"] == null ||
+                          karyawanData['avatar'] == "")
+                      ? "https://ui-avatars.com/api/?name=${karyawanData['name']}/"
+                      : karyawanData['avatar'],
+                  fit: BoxFit.cover,
+                ),
+                // child: Image.network(user['avatar'] != null ? ),
+              ),
             ),
           ),
           SizedBox(width: 10),

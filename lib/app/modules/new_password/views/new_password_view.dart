@@ -71,7 +71,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
                     () => CustomInput(
                       controller: controller.passC,
                       label: 'Password Baru',
-                      hint: '*****************',
+                      hint: '********',
                       obsecureText: controller.newPassObs.value,
                       suffixIcon: IconButton(
                         icon: (controller.newPassObs.value != false)
@@ -88,7 +88,7 @@ class NewPasswordView extends GetView<NewPasswordController> {
                     () => CustomInput(
                       controller: controller.confirmPassC,
                       label: 'Konfirmasi Password Baru',
-                      hint: '*****************',
+                      hint: '********',
                       obsecureText: controller.newPassCObs.value,
                       suffixIcon: IconButton(
                         icon: (controller.newPassCObs.value != false)

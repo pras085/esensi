@@ -39,7 +39,9 @@ class PerizinanAdminTile extends StatelessWidget {
                     ),
                     SizedBox(height: 6),
                     Text(
-                      (dataUser["name"] == null) ? "-" : dataUser["name"],
+                      (dataUser["name"] == null)
+                          ? "-"
+                          : dataUser["name"].toString().replaceAll(' ', '\n'),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -56,14 +58,10 @@ class PerizinanAdminTile extends StatelessWidget {
                       style: TextStyle(fontSize: 12),
                     ),
                     SizedBox(height: 6),
-                    Text(
-                      (perizinanData["status"] == true)
-                          ? "-"
-                          : perizinanData["status"],
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Icon(
+                      Icons.update_outlined,
+                      color: AppColor.navigationColor,
+                      size: 30,
                     ),
                   ],
                 ),

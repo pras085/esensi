@@ -1,10 +1,17 @@
 import 'package:get/get.dart';
 
 class DetailPresenceController extends GetxController {
-  final count = 0.obs;
+  DateTime jamMasuk = DateTime(0, 0, 0, 8, 00);
+  DateTime jamKeluar = DateTime(0, 0, 0, 17, 00);
+  Map<String, dynamic> presenceData;
+  Map<String, dynamic> userData;
+
   @override
   void onInit() {
     super.onInit();
+    presenceData = Get.arguments;
+    userData = Get.arguments;
+    update();
   }
 
   @override
@@ -14,5 +21,4 @@ class DetailPresenceController extends GetxController {
 
   @override
   void onClose() {}
-  void increment() => count.value++;
 }

@@ -6,11 +6,15 @@ import 'package:presence/app/modules/bridge/views/bridge_view.dart';
 import 'package:presence/app/modules/daftar_karyawan/bindings/daftar_karyawan_binding.dart';
 import 'package:presence/app/modules/daftar_karyawan/views/daftar_karyawan_view.dart';
 import 'package:presence/app/modules/detail_perizinan/views/detail_perizinan_view.dart';
+import 'package:presence/app/modules/info_app/bindings/info_app_binding.dart';
+import 'package:presence/app/modules/info_app/views/info_app_view.dart';
 import 'package:presence/app/modules/perizinan_admin/views/perizinan_admin_view.dart';
 import 'package:presence/app/modules/presensi_today/bindings/presensi_today_binding.dart';
 import 'package:presence/app/modules/presensi_today/views/presensi_today_view.dart';
 import 'package:presence/app/modules/riwayat_perizinan/bindings/riwayat_perizinan_binding.dart';
 import 'package:presence/app/modules/riwayat_perizinan/views/riwayat_perizinan_view.dart';
+import 'package:presence/app/modules/riwayat_presence_chosen/bindings/riwayat_presence_chosen_binding.dart';
+import 'package:presence/app/modules/riwayat_presence_chosen/views/riwayat_presence_chosen_view.dart';
 import 'package:presence/app/modules/tamba_perizinan/bindings/tamba_perizinan_binding.dart';
 import 'package:presence/app/modules/tamba_perizinan/views/tamba_perizinan_view.dart';
 
@@ -158,6 +162,16 @@ class AppPages {
       name: _Paths.TAMBA_PERIZINAN,
       page: () => TambaPerizinanView(),
       binding: TambaPerizinanBinding(),
+    ),
+    GetPage(
+      name: _Paths.INFO_APP,
+      page: () => InfoAppView(),
+      binding: InfoAppBinding(),
+    ),
+    GetPage(
+      name: _Paths.RIWAYAT_PRESENCE_CHOSEN,
+      page: () => RiwayatPresenceChosenView(),
+      binding: RiwayatPresenceChosenBinding(),
     ),
   ];
 }

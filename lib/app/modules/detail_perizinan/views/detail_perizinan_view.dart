@@ -177,8 +177,7 @@ class DetailPerizinanView extends GetView<DetailPerizinanController> {
                         ],
                       ),
                     ),
-                    (listData['role'] == "admin" &&
-                            allData['izin']['status'] != 'waiting')
+                    (listData['role'] == "admin")
                         ? Container(
                             // height: Get.height * .2,
                             width: Get.width,

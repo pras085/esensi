@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:presence/app/style/app_color.dart';
 import 'package:presence/app/widgets/custom_input.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/update_pofile_controller.dart';
 
 class UpdatePofileView extends GetView<UpdatePofileController> {
@@ -141,6 +142,24 @@ class UpdatePofileView extends GetView<UpdatePofileController> {
             label: "Email",
             hint: "youremail@email.com",
             disabled: true,
+          ),
+          GestureDetector(
+            onTap: (() => Get.toNamed(Routes.CHANGE_PASSWORD)),
+            child: Container(
+              padding: EdgeInsets.all(12),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColor.backgroundColor),
+              child: Text(
+                "Ganti password ?",
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'poppins',
+                  color: AppColor.whiteColor,
+                ),
+              ),
+            ),
           ),
         ],
       ),

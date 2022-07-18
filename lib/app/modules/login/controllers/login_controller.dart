@@ -185,17 +185,17 @@ class LoginController extends GetxController {
         ));
   }
 
-  checkDefaultPassword() {
+  checkDefaultPassword() async {
     Get.put(PresenceController(), permanent: true);
     Get.put(PageIndexController(), permanent: true);
     if (passC.text == 'qwertyuiop') {
-      Get.toNamed(Routes.NEW_PASSWORD);
+      await Get.toNamed(Routes.NEW_PASSWORD);
     } else {
       print(PreferenceService.getFirst());
       if (PreferenceService.getFirst() == null) {
         Get.to(SignUpView(cameraDescription: cameraDescription));
       } else if (PreferenceService.getFirst() == "untrue") {
-        Get.offAllNamed(Routes.HOME);
+        Get.offAllNamed(Routes.BRIDGE);
         PreferenceService.setStatus("logged");
       }
     }

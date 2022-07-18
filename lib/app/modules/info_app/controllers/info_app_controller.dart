@@ -1,17 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:presence/app/routes/app_pages.dart';
-import 'package:presence/app/services/shared_preferences.dart';
-import 'package:presence/app/widgets/toast/custom_toast.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../style/app_color.dart';
 
-class ProfileController extends GetxController {
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+class InfoAppController extends GetxController {
+  String appName;
+  String packageName;
+  String version;
+  String buildNumber;
   var htmlData = """
     <html>
     <body>
@@ -125,9 +124,32 @@ class ProfileController extends GetxController {
     </body>
     </html>
       """;
+  @override
+  void onInit() async {
+    super.onInit();
+    getPackageInfo();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+  }
+
+  @override
+  void onClose() {}
+  void openWA() async {
+    var noWA = "+6285737777778";
+    var waURL = "whatsapp://send?phone=" + noWA + "&text=Hallo";
+    if (await canLaunch(waURL)) {
+      await launch(waURL);
+    } else {
+      Get.snackbar('Error', 'Anda belum menginstall WhatsApp');
+    }
+  }
+
   openTerm() {
     Get.defaultDialog(
-        confirm: Container(
+        cancel: Container(
             padding: EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -135,7 +157,7 @@ class ProfileController extends GetxController {
             child: TextButton(
               onPressed: () => Get.back(),
               child: Text(
-                'Setuju',
+                'Kembali',
                 style: TextStyle(
                     color: AppColor.whiteColor, fontFamily: 'poppins'),
               ),
@@ -158,22 +180,12 @@ class ProfileController extends GetxController {
         ));
   }
 
-  Stream<DocumentSnapshot> streamUser() async* {
-    print("called");
-    String uid = auth.currentUser.uid;
-    yield* firestore.collection("employee").doc(uid).snapshots();
-  }
-
-  Future<void> logout() async {
-    await PreferenceService.setStatus("unlog");
-    try {
-      await auth.signOut().then((value) {
-        Get.offAllNamed(Routes.LOGIN);
-        dispose();
-      });
-    } catch (e) {
-      CustomToast.errorToast('Error', 'Gagal logout .. ');
-    }
-    print(PreferenceService.getStatus().toString());
+  Future<PackageInfo> getPackageInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    appName = packageInfo.appName;
+    packageName = packageInfo.packageName;
+    version = packageInfo.version;
+    buildNumber = packageInfo.buildNumber;
+    update();
   }
 }

@@ -125,7 +125,7 @@ class TambaPerizinanView extends GetView<TambaPerizinanController> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () async {
-                        print(controller.alasanC.value);
+                        print(controller.alasanC.text);
                         await controller.uploadPerizinan();
                         Get.back();
                       },

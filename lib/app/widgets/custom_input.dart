@@ -10,9 +10,9 @@ class CustomInput extends StatefulWidget {
   final bool obsecureText;
   final Widget suffixIcon;
   CustomInput({
-     this.controller,
-     this.label,
-     this.hint,
+    this.controller,
+    this.label,
+    this.hint,
     this.disabled = false,
     this.margin = const EdgeInsets.only(bottom: 16),
     this.obsecureText = false,
@@ -34,7 +34,9 @@ class _CustomInputState extends State<CustomInput> {
         padding: EdgeInsets.only(left: 14, right: 14, top: 4),
         margin: widget.margin,
         decoration: BoxDecoration(
-          color: (widget.disabled == false) ? Colors.transparent : AppColor.primaryExtraSoft,
+          color: (widget.disabled == false)
+              ? Colors.transparent
+              : AppColor.primaryExtraSoft,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(width: 1, color: AppColor.secondaryExtraSoft),
         ),

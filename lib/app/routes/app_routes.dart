@@ -25,6 +25,8 @@ abstract class Routes {
   static const RIWAYAT_PERIZINAN = _Paths.RIWAYAT_PERIZINAN;
   static const DAFTAR_KARYAWAN = _Paths.DAFTAR_KARYAWAN;
   static const TAMBA_PERIZINAN = _Paths.TAMBA_PERIZINAN;
+  static const INFO_APP = _Paths.INFO_APP;
+  static const RIWAYAT_PRESENCE_CHOSEN = _Paths.RIWAYAT_PRESENCE_CHOSEN;
 }
 
 abstract class _Paths {
@@ -49,4 +51,6 @@ abstract class _Paths {
   static const RIWAYAT_PERIZINAN = '/riwayat-perizinan';
   static const DAFTAR_KARYAWAN = '/daftar-karyawan';
   static const TAMBA_PERIZINAN = '/tamba-perizinan';
+  static const INFO_APP = '/info-app';
+  static const RIWAYAT_PRESENCE_CHOSEN = '/riwayat-presence-chosen';
 }

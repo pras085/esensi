@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:presence/app/controllers/page_index_controller.dart';
 import 'package:presence/app/style/app_color.dart';
 
-import 'app/controllers/presence_controller.dart';
 import 'app/routes/app_pages.dart';
 import 'app/services/shared_preferences.dart';
 import 'firebase_options.dart';
@@ -17,6 +16,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
   await initializeDateFormatting('id_ID', null);
   // debugPaintSizeEnabled = true;

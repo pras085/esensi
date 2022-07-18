@@ -50,9 +50,18 @@ class AllPresenceView extends GetView<AllPresenceController> {
                             DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
                         selectionMode: DateRangePickerSelectionMode.range,
                         selectionColor: AppColor.primary,
-                        rangeSelectionColor: AppColor.primary.withOpacity(0.2),
+                        endRangeSelectionColor: AppColor.backgroundColor,
+                        startRangeSelectionColor: AppColor.backgroundColor,
+                        rangeSelectionColor:
+                            AppColor.backgroundColor.withOpacity(0.6),
                         viewSpacing: 10,
+                        toggleDaySelection: true,
+                        initialSelectedDate: controller.end,
+                        maxDate: DateTime.now(),
+                        minDate: DateTime(2022, 6),
                         showActionButtons: true,
+                        showNavigationArrow: true,
+                        todayHighlightColor: AppColor.backgroundColor,
                         onCancel: () => Get.back(),
                         onSubmit: (data) {
                           if (data != null) {

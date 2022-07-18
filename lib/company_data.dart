@@ -10,21 +10,24 @@ class CompanyData {
     // 'latitude': -7.6297874,
     // 'longitude': 111.5169798,
 
-    //DCS
+    // DCS
     // 'latitude': -7.6414493,
     // 'longitude': 111.538174,
 
     //EJSC
-    // 'latitude': -7.6234556,
-    // 'longitude': 111.5207046,
+
+    // 'latitude': -7.6285340,
+    // 'longitude': 111.5414493,
 
     //EJSC
     // 'latitude': -7.746470,
 
     // 'longitude': 111.4741281,
 
-    // //PNM
-    'latitudePnm': -7.647675,
-    'longitudePnm': 111.526511,
+    //PNM
+    // 'latitudePnm': -7.647675,
+    // 'longitudePnm': 111.526511,
+    // 'latitude': -7.647675,
+    // 'longitude': 111.526511,
   };
 }

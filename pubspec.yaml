@@ -1,5 +1,5 @@
 name: presence
-version: 1.0.0+4
+version: 1.0.0+8
 publish_to: none
 description: A new Flutter project.
 environment:
@@ -20,23 +20,29 @@ dependencies:
   flutter_launcher_icons: ^0.9.3
   flutter_native_splash: ^1.2.0
   flutter_svg: 1.0.3
+
   # flutter_svg_provider: ^1.0.3
+  flutter_vector_icons: ^1.0.0
   geocoding: 2.0.4
   geolocator: ^7.7.1
   get: 4.6.1
   # google_maps: ^6.2.0
+  getwidget: ^2.0.5
   google_ml_kit: ^0.5.0
   # google_mlkit_face_detection: ^0.3.0
   # image: ^3.0.2
   image_picker: 0.8.5
   intl: 0.17.0
   # launch_review: ^3.0.1
+  launch_review: ^3.0.1
   lottie: ^1.3.0
   maps_launcher: ^2.0.1
+  package_info_plus: ^1.4.2
   path_provider: ^2.0.1
   shared_preferences: ^2.0.13
   syncfusion_flutter_datepicker: ^20.1.51
   tflite_flutter: ^0.8.0
+  url_launcher: ^6.1.4
   uuid: ^3.0.6
 
 dev_dependencies:
@@ -62,6 +68,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/vector/
+
   fonts:
     - family: poppins
       fonts:

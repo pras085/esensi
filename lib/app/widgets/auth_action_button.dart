@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +15,7 @@ import 'package:presence/app/services/shared_preferences.dart';
 import 'package:presence/app/style/app_color.dart';
 
 import 'dialog/custom_alert_dialog.dart';
+import 'toast/custom_toast.dart';
 
 class AuthActionButton extends StatefulWidget {
   AuthActionButton(this._initializeControllerFuture,
@@ -26,13 +29,14 @@ class AuthActionButton extends StatefulWidget {
 }
 
 class _AuthActionButtonState extends State<AuthActionButton> {
-  // final pageIndexController = Get.find<PageIndexController>();
   final presenceC = Get.find<PresenceController>();
 
   final homeC = Get.find<HomeController>();
 
   String auth = FirebaseAuth.instance.currentUser.uid;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  PageIndexController pageIndexC = Get.find<PageIndexController>();
 
   /// service injection
   final FaceNetService _faceNetService = FaceNetService();
@@ -51,17 +55,15 @@ class _AuthActionButtonState extends State<AuthActionButton> {
 
   Future _signIn() async {
     var userIdFromDb = _predictUser();
-    if (homeC.inRadius != false.obs) {
-      if (this.auth == userIdFromDb) {
-        await presenceC.presence();
-      } else {
-        print('ABSEN GAGAL');
-        Get.snackbar('Terjadi Kesalahan', 'Wajah tidak dikenali',
-            colorText: AppColor.whiteColor);
-      }
+    if (this.auth == userIdFromDb) {
+      return presenceC.presence();
     } else {
-      Get.snackbar('Terjadi Kesalahan', 'Anda berada di luar radius kantor',
-          colorText: AppColor.whiteColor);
+      // print('ABSEN GAGAL');
+      await CustomToast.errorToast('Error', 'Wajah tidak dikenali  !');
+      await Timer(Duration(seconds: 3), () {
+        pageIndexC.changePage(0);
+      });
+      return null;
     }
   }
 
@@ -90,10 +92,17 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                   title: 'Konfirmasi',
                   message: 'Yakin sudah tidak ada revisi ?',
                   onCancel: () {
-                    Get.back();
-                    Get.back();
+                    pageIndexC.changePage(0);
                   },
                   onConfirm: () async {
+                    Get.back();
+                    Get.defaultDialog(
+                      actions: null,
+                      title: "Mohon Tunggu",
+                      content: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
                     await _signIn();
                   });
             } else {
@@ -105,9 +114,22 @@ class _AuthActionButtonState extends State<AuthActionButton> {
                     Get.back();
                   },
                   onConfirm: () async {
+                    Get.back();
+                    Get.defaultDialog(
+                      actions: null,
+                      title: "Mohon Tunggu",
+                      titleStyle: TextStyle(
+                        fontFamily: 'poppins',
+                        fontSize: 12,
+                        color: AppColor.navigationColor,
+                      ),
+                      content: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
                     await _signUp();
                     PreferenceService.setFirst("untrue");
-                    Get.offNamed(Routes.HOME);
+                    Get.offNamed(Routes.BRIDGE);
                   });
             }
             // PersistentBottomSheetController bottomSheetController =

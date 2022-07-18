@@ -217,6 +217,7 @@ class HomeView extends GetView<HomeController> {
                   ),
                   Expanded(
                     child: RefreshIndicator(
+                      color: AppColor.navigationColor,
                       onRefresh: () {
                         HapticFeedback.lightImpact();
                         return controller.onRefresh();
@@ -440,7 +441,7 @@ class HomeView extends GetView<HomeController> {
                                                 ),
                                                 SizedBox(height: 5),
                                                 Text(
-                                                  'Presensi\nHari Ini',
+                                                  'Presensi\nKaryawan',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     fontSize: 12,
@@ -559,7 +560,7 @@ class HomeView extends GetView<HomeController> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "3 Hari Terakhirs",
+                                  "3 Hari Terakhir",
                                   style: TextStyle(
                                       fontFamily: "poppins",
                                       fontWeight: FontWeight.w600),

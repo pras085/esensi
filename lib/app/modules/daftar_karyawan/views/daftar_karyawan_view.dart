@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -85,6 +87,9 @@ class DaftarKaryawanView extends GetView<DaftarKaryawanController> {
                       List<QueryDocumentSnapshot> listKaryawan =
                           snapshot.data?.docs;
 
+                      // log('${filter}');
+                      // var maxId = listKaryawan['employee_id'];
+
                       return ListView.separated(
                         // itemCount: snapshot.data.docs.length > 0
                         //     ? snapshot.data.docs.length
@@ -98,6 +103,7 @@ class DaftarKaryawanView extends GetView<DaftarKaryawanController> {
                         itemBuilder: (context, index) {
                           Map<String, dynamic> karyawanData =
                               listKaryawan[index].data();
+                          // var maxId = karayaw;
                           return KaryawanTile(
                             karyawanData: karyawanData,
                           );

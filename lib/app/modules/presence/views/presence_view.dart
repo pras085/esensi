@@ -5,13 +5,16 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:lottie/lottie.dart';
 import 'package:presence/app/controllers/page_index_controller.dart';
 import 'package:presence/app/services/camera_services.dart';
 import 'package:presence/app/services/facenet_services.dart';
 import 'package:presence/app/services/ml_kit_services.dart';
 import 'package:presence/app/widgets/auth_action_button.dart';
 import 'package:presence/app/widgets/camera_header.dart';
+import 'package:presence/app/widgets/dialog/custom_alert_dialog.dart';
 import 'package:presence/app/widgets/face_painter.dart';
+import 'package:presence/app/widgets/toast/custom_toast.dart';
 
 import '../../../style/app_color.dart';
 
@@ -77,14 +80,7 @@ class PresenceViewState extends State<PresenceView> {
   /// handles the button pressed event
   Future<void> onShot() async {
     if (faceDetected == null) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text('No face detected!'),
-          );
-        },
-      );
+      CustomToast.errorToast('Error', 'Wajah tidak terdeteksi !');
 
       return false;
     } else {

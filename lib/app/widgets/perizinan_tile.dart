@@ -30,57 +30,42 @@ class PerizinanTile extends StatelessWidget {
                     : AppColor.primary,
           ),
         ),
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(10),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Nama",
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(height: 6),
-                Text(
-                  (dataUser["name"] == null) ? "-" : dataUser["name"],
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textWidthBasis: TextWidthBasis.longestLine,
-                ),
-              ],
+            Text(
+              (dataUser["name"] == null) ? "-" : dataUser["name"],
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+              textWidthBasis: TextWidthBasis.longestLine,
             ),
             Spacer(),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Status",
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 6),
-                Text(
-                  (perizinanData["status"] == true)
-                      ? "-"
-                      : perizinanData["status"],
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
+                Icon(
+                  (perizinanData["status"] == "true")
+                      ? Icons.verified
+                      : (perizinanData["status"] == "false")
+                          ? Icons.do_disturb_outlined
+                          : Icons.update_outlined,
+                  color: (perizinanData["status"] == "true")
+                      ? AppColor.success
+                      : (perizinanData["status"] == "false")
+                          ? AppColor.error.withOpacity(0.8)
+                          : AppColor.navigationColor,
+                  size: 30,
                 ),
               ],
-            ),
-            Text(
-              "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(perizinanData["date"]))}",
-
-              // "${DateFormat.yMMMMEEEEd().format(DateTime.parse(presenceData["date"]))}",
-              style: TextStyle(
-                fontSize: 10,
-                color: AppColor.secondarySoft,
-              ),
             ),
           ],
         ),

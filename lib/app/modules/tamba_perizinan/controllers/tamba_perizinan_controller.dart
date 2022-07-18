@@ -144,7 +144,10 @@ class TambaPerizinanController extends GetxController {
 
   Future<void> uploadPerizinan() async {
     File imageFile = File(imagepath);
-    if (imagepath != '') {
+    if (imagepath != '' || alasanC.text.isEmpty) {
+      print(imagepath);
+      print(alasanC);
+
       Uint8List imagebytes = await imageFile.readAsBytes(); //convert to bytes
       String encImg = base64Encode(imagebytes); //convert bytes to base64 string
       String uid = auth.currentUser.uid;

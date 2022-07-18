@@ -1,14 +1,18 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:launch_review/launch_review.dart';
 import 'package:presence/app/controllers/page_index_controller.dart';
 import 'package:presence/app/routes/app_pages.dart';
 import 'package:presence/app/style/app_color.dart';
 import 'package:presence/app/widgets/custom_bottom_navigation_bar.dart';
 import 'package:presence/app/widgets/dialog/custom_alert_dialog.dart';
 import 'package:presence/app/widgets/profile_list_item.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/profile_controller.dart';
 
@@ -95,16 +99,6 @@ class ProfileView extends GetView<ProfileController> {
                                 : SizedBox(),
                             Divider(thickness: 1),
                             GestureDetector(
-                              onTap: () {
-                                print("WhatsApp");
-                              },
-                              child: ProfileListItem(
-                                icon: Icons.dangerous,
-                                text: 'Butuh Bantuan ? Hubungi Kami',
-                              ),
-                            ),
-                            Divider(thickness: 1),
-                            GestureDetector(
                               onTap: () => Get.toNamed(Routes.UPDATE_POFILE,
                                   arguments: userData),
                               child: ProfileListItem(
@@ -114,10 +108,12 @@ class ProfileView extends GetView<ProfileController> {
                             ),
                             Divider(thickness: 1),
                             GestureDetector(
-                              onTap: () => Get.toNamed(Routes.CHANGE_PASSWORD),
+                              onTap: () {
+                                Get.toNamed(Routes.INFO_APP);
+                              },
                               child: ProfileListItem(
-                                icon: Icons.vpn_key,
-                                text: 'Ganti Password',
+                                icon: Icons.info,
+                                text: 'Tentang Aplikasi',
                               ),
                             ),
                             Divider(thickness: 1),
@@ -135,6 +131,9 @@ class ProfileView extends GetView<ProfileController> {
                               ),
                             ),
                             Divider(thickness: 1),
+                            SizedBox(
+                              height: 25,
+                            )
                           ],
                         ),
                       ),
@@ -146,6 +145,16 @@ class ProfileView extends GetView<ProfileController> {
             },
           ),
         ));
+  }
+}
+
+void openWA() async {
+  var noWA = "+6285737777778";
+  var waURL = "whatsapp://send?phone=" + noWA + "&text=Hallo";
+  if (await canLaunch(waURL)) {
+    await launch(waURL);
+  } else {
+    Get.snackbar('Error', 'Anda belum menginstall WhatsApp');
   }
 }
 
