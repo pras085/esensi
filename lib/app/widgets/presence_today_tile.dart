@@ -4,7 +4,7 @@ import 'package:presence/app/routes/app_pages.dart';
 import 'package:presence/app/style/app_color.dart';
 
 class PresenceTodayTile extends StatelessWidget {
-  // final Map<String, dynamic> presenceData;
+  // finahl Map<String, dynamic> presenceData;
   final Map<String, dynamic> dataUser;
 
   PresenceTodayTile({this.dataUser});

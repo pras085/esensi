@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:presence/app/routes/app_pages.dart';
 import 'package:presence/app/style/app_color.dart';
 import 'package:presence/app/widgets/custom_bottom_navigation_bar.dart';
+import 'package:presence/app/widgets/hari_ini_tile.dart';
 import 'package:presence/app/widgets/presence_card.dart';
 import 'package:presence/app/widgets/presence_tile.dart';
 
@@ -19,7 +23,7 @@ class HomeView extends GetView<HomeController> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        bottomNavigationBar: CustomBottomNavigationBar(),
+        bottomNavigationBar: CustomBottomNavigationBar(user = user),
         extendBody: true,
         body: body(),
       ),
@@ -229,45 +233,54 @@ class HomeView extends GetView<HomeController> {
                         padding: EdgeInsets.only(
                             bottom: 100, top: 10, right: 20, left: 20),
                         children: [
-                          // section 1 -  card
-                          user['address'] != null
-                              ? StreamBuilder<DocumentSnapshot>(
-                                  stream: controller.streamTodayPresence(),
-                                  builder: (context, snapshot) {
-                                    // #TODO: make skeleton
-                                    switch (snapshot.connectionState) {
-                                      case ConnectionState.waiting:
-                                        return Center(
-                                            child: CircularProgressIndicator(
-                                          color: AppColor.navigationColor,
-                                        ));
-                                      case ConnectionState.active:
-                                      case ConnectionState.done:
-                                        var todayPresenceData =
-                                            snapshot.data.data();
-                                        return PresenceCard(
-                                          userData: user,
-                                          todayPresenceData: todayPresenceData,
-                                        );
-                                      default:
-                                        return SizedBox();
-                                    }
-                                  })
-                              : Container(),
+                          // section 1 -
+                          //  card
+                          user["role"] == "admin"
+                              ? SizedBox(
+                                  height: 30,
+                                )
+                              : user['address'] != null
+                                  ? StreamBuilder<DocumentSnapshot>(
+                                      stream: controller.streamTodayPresence(),
+                                      builder: (context, snapshot) {
+                                        // #TODO: make skeleton
+                                        switch (snapshot.connectionState) {
+                                          case ConnectionState.waiting:
+                                            return Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                              color: AppColor.navigationColor,
+                                            ));
+                                          case ConnectionState.active:
+                                          case ConnectionState.done:
+                                            var todayPresenceData =
+                                                snapshot.data.data();
+                                            return PresenceCard(
+                                              userData: user,
+                                              todayPresenceData:
+                                                  todayPresenceData,
+                                            );
+                                          default:
+                                            return SizedBox();
+                                        }
+                                      })
+                                  : SizedBox(),
                           // last location
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 12, bottom: 24, left: 4),
-                            child: Text(
-                              (user["address"] != null)
-                                  ? "${user['address']}"
-                                  : "Belum ada lokasi",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppColor.secondarySoft,
-                              ),
-                            ),
-                          ),
+                          user["role"] == "admin"
+                              ? SizedBox()
+                              : Container(
+                                  margin: EdgeInsets.only(
+                                      top: 12, bottom: 24, left: 4),
+                                  child: Text(
+                                    (user["address"] != null)
+                                        ? "${user['address']}"
+                                        : "Belum ada lokasi",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: AppColor.secondarySoft,
+                                    ),
+                                  ),
+                                ),
                           // section 3 distance & map
                           Container(
                             width: MediaQuery.of(context).size.width,
@@ -454,7 +467,6 @@ class HomeView extends GetView<HomeController> {
                                         : SizedBox(),
                                     if ((user["role"] == "admin"))
                                       SizedBox(width: 15),
-
                                     (user["role"] == "admin")
                                         ? Expanded(
                                             child: Column(
@@ -554,57 +566,196 @@ class HomeView extends GetView<HomeController> {
                             ),
                           ),
                           // Section 5 - Presence History
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "3 Hari Terakhir",
-                                  style: TextStyle(
-                                      fontFamily: "poppins",
-                                      fontWeight: FontWeight.w600),
+                          user["role"] == "admin"
+                              ? SizedBox()
+                              : Container(
+                                  margin: EdgeInsets.symmetric(vertical: 12),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "3 Hari Terakhir",
+                                        style: TextStyle(
+                                            fontFamily: "poppins",
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
+                          user["role"] == "admin"
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Presensi Hari Ini',
+                                      style: TextStyle(
+                                          fontFamily: "poppins",
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    FutureBuilder<QuerySnapshot>(
+                                        future: controller.getAllUser(),
+                                        builder: (context, snapshot) {
+                                          switch (snapshot.connectionState) {
+                                            case ConnectionState.waiting:
+                                              return Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                color: AppColor.navigationColor,
+                                              ));
+                                            case ConnectionState.active:
+                                            case ConnectionState.done:
+                                              List<QueryDocumentSnapshot>
+                                                  allUser = snapshot.data?.docs;
 
-                          StreamBuilder<QuerySnapshot>(
-                              stream: controller.streamLastPresence(),
-                              builder: (context, snapshot) {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.waiting:
-                                    return Center(
-                                        child: CircularProgressIndicator(
-                                      color: AppColor.navigationColor,
-                                    ));
-                                  case ConnectionState.active:
-                                  case ConnectionState.done:
-                                    List<QueryDocumentSnapshot> listPresence =
-                                        snapshot.data?.docs;
+                                              return Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    child: ListView.builder(
+                                                      itemCount: allUser.length,
+                                                      shrinkWrap: true,
+                                                      physics:
+                                                          NeverScrollableScrollPhysics(),
+                                                      scrollDirection:
+                                                          Axis.vertical,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        Map<String, dynamic>
+                                                            user =
+                                                            allUser[index]
+                                                                .data();
+                                                        String todayDocId =
+                                                            DateFormat.yMd()
+                                                                .format(DateTime
+                                                                    .now())
+                                                                .replaceAll(
+                                                                    "/", "-");
+                                                        return Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            StreamBuilder<
+                                                                    DocumentSnapshot>(
+                                                                stream: FirebaseFirestore
+                                                                    .instance
+                                                                    .collection(
+                                                                        'employee')
+                                                                    .doc(allUser[
+                                                                            index]
+                                                                        ['uid'])
+                                                                    .collection(
+                                                                        "presence")
+                                                                    .doc(
+                                                                        todayDocId)
+                                                                    .snapshots(),
+                                                                builder: (context,
+                                                                    snapshotUser) {
+                                                                  var pp;
+                                                                  switch (snapshot
+                                                                      .connectionState) {
+                                                                    case ConnectionState
+                                                                        .waiting:
+                                                                      return Center(
+                                                                          child:
+                                                                              CircularProgressIndicator(
+                                                                        color: AppColor
+                                                                            .navigationColor,
+                                                                      ));
+                                                                    case ConnectionState
+                                                                        .active:
+                                                                    case ConnectionState
+                                                                        .done:
+                                                                      if (snapshotUser
+                                                                              .data !=
+                                                                          null) {
+                                                                        var pp = snapshotUser
+                                                                            .data
+                                                                            .data();
+                                                                        return TodayTile(
+                                                                          karyawanData:
+                                                                              user,
+                                                                          presenceData:
+                                                                              pp,
+                                                                        );
+                                                                        // return Column(
+                                                                        //   mainAxisAlignment:
+                                                                        //       MainAxisAlignment.start,
+                                                                        //   crossAxisAlignment:
+                                                                        //       CrossAxisAlignment.start,
+                                                                        //   children: [
+                                                                        //     Text(allUser[index]['name'].toString()),
+                                                                        //     Text("Masuk : ${snapshotUser.data['masuk']['date']}"),
+                                                                        //     pp['keluar'] == null
+                                                                        //         ? Text("Keluar : -")
+                                                                        //         : Text("Keluar : ${snapshotUser.data['keluar']['date']}"),
+                                                                        //   ],
+                                                                        // );
+                                                                      } else {
+                                                                        return SizedBox();
+                                                                      }
+                                                                      return null;
+                                                                    default:
+                                                                      return SizedBox();
+                                                                  }
+                                                                }),
+                                                          ],
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            default:
+                                              return SizedBox();
+                                          }
+                                        }),
+                                  ],
+                                )
+                              : StreamBuilder<QuerySnapshot>(
+                                  stream: controller.streamLastPresence(),
+                                  builder: (context, snapshot) {
+                                    switch (snapshot.connectionState) {
+                                      case ConnectionState.waiting:
+                                        return Center(
+                                            child: CircularProgressIndicator(
+                                          color: AppColor.navigationColor,
+                                        ));
+                                      case ConnectionState.active:
+                                      case ConnectionState.done:
+                                        List<QueryDocumentSnapshot>
+                                            listPresence = snapshot.data?.docs;
 
-                                    return ListView.separated(
-                                      // itemCount: snapshot.data.docs.length > 0
-                                      //     ? snapshot.data.docs.length
-                                      //     : 0,
-                                      itemCount: snapshot.data.docs.length,
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      padding: EdgeInsets.zero,
-                                      separatorBuilder: (context, index) =>
-                                          SizedBox(height: 16),
-                                      itemBuilder: (context, index) {
-                                        Map<String, dynamic> presenceData =
-                                            listPresence[index].data();
-                                        return PresenceTile(
-                                          presenceData: presenceData,
+                                        return ListView.separated(
+                                          // itemCount: snapshot.data.docs.length > 0
+                                          //     ? snapshot.data.docs.length
+                                          //     : 0,
+                                          itemCount: snapshot.data.docs.length,
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          padding: EdgeInsets.zero,
+                                          separatorBuilder: (context, index) =>
+                                              SizedBox(height: 16),
+                                          itemBuilder: (context, index) {
+                                            Map<String, dynamic> presenceData =
+                                                listPresence[index].data();
+                                            return PresenceTile(
+                                              presenceData: presenceData,
+                                            );
+                                          },
                                         );
-                                      },
-                                    );
-                                  default:
-                                    return SizedBox();
-                                }
-                              }),
+                                      default:
+                                        return SizedBox();
+                                    }
+                                  }),
                         ],
                       ),
                     ),

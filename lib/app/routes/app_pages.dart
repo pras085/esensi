@@ -9,6 +9,8 @@ import 'package:presence/app/modules/detail_perizinan/views/detail_perizinan_vie
 import 'package:presence/app/modules/info_app/bindings/info_app_binding.dart';
 import 'package:presence/app/modules/info_app/views/info_app_view.dart';
 import 'package:presence/app/modules/perizinan_admin/views/perizinan_admin_view.dart';
+import 'package:presence/app/modules/perizinan_chosen/bindings/perizinan_chosen_binding.dart';
+import 'package:presence/app/modules/perizinan_chosen/views/perizinan_chosen_view.dart';
 import 'package:presence/app/modules/presensi_today/bindings/presensi_today_binding.dart';
 import 'package:presence/app/modules/presensi_today/views/presensi_today_view.dart';
 import 'package:presence/app/modules/riwayat_perizinan/bindings/riwayat_perizinan_binding.dart';
@@ -172,6 +174,11 @@ class AppPages {
       name: _Paths.RIWAYAT_PRESENCE_CHOSEN,
       page: () => RiwayatPresenceChosenView(),
       binding: RiwayatPresenceChosenBinding(),
+    ),
+    GetPage(
+      name: _Paths.PERIZINAN_CHOSEN,
+      page: () => PerizinanChosenView(),
+      binding: PerizinanChosenBinding(),
     ),
   ];
 }

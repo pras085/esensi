@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,18 +16,19 @@ import 'package:presence/app/widgets/toast/custom_toast.dart';
 
 class PageIndexController extends GetxController {
   PresenceController presenceController = Get.find();
-  HomeController homeC = Get.put(HomeController(), permanent: true);
+  HomeController homeC = Get.put(HomeController());
   RxInt pageIndex = 0.obs;
   RxBool isLoading = false.obs;
   final FaceNetService _faceNetService = FaceNetService();
   final MLKitService _mlKitService = MLKitService();
   final DataBaseService _dataBaseService = DataBaseService();
   CameraDescription cameraDescription;
-
+  RxString role = ''.obs;
   bool loading = false;
   @override
   void onInit() async {
     super.onInit();
+    onGetProfile();
     await _startUp();
   }
 
@@ -52,6 +55,18 @@ class PageIndexController extends GetxController {
     } else {
       return Future<bool>.value(false);
     }
+  }
+
+  onGetProfile() async {
+    String auth = FirebaseAuth.instance.currentUser.uid;
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    CollectionReference user = await firestore.collection("employee");
+    user.doc(auth).get().then((valueUser) {
+      log(valueUser['name']);
+      role.value = valueUser['role'];
+    });
   }
 
   void changePage(int index) async {

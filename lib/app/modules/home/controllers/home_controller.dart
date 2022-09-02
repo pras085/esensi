@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:presence/app/controllers/page_index_controller.dart';
 import 'package:presence/app/services/shared_preferences.dart';
 import 'package:presence/app/widgets/toast/custom_toast.dart';
 import 'package:presence/company_data.dart';
@@ -14,6 +16,7 @@ class HomeController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool inRadius = false.obs;
   var valueTesting = "0".obs;
+  var role = "".obs;
 
   RxString officeDistance = "-".obs;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -30,16 +33,22 @@ class HomeController extends GetxController {
   }
 
   onRefresh() async {
-    onGetTesting();
+    onGetProfile();
     await getDistanceToOffice().then((value) {
       officeDistance.value = value;
     });
   }
 
-  onGetTesting() async {
-    await firestore.collection("testing").doc("testing").get().then((value) {
-      valueTesting.value = value["testing"];
-      print("value nya adalah : $valueTesting");
+  onGetProfile() async {
+    String auth = FirebaseAuth.instance.currentUser.uid;
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    //Database
+    CollectionReference user = await firestore.collection("employee");
+    user.doc(auth).get().then((valueUser) {
+      log(valueUser['role']);
+      role.value = valueUser['role'];
     });
   }
 
@@ -167,6 +176,30 @@ class HomeController extends GetxController {
 
   Stream<DocumentSnapshot> streamTodayPresence() async* {
     String uid = auth.currentUser.uid;
+    String todayDocId =
+        DateFormat.yMd().format(DateTime.now()).replaceAll("/", "-");
+    yield* firestore
+        .collection("employee")
+        .doc(uid)
+        .collection("presence")
+        .doc(todayDocId)
+        .snapshots();
+  }
+
+  Future<QuerySnapshot> getAllPresenceToday() async {
+    QuerySnapshot query = await firestore.collection("presence").get();
+    return query;
+  }
+
+  Future<QuerySnapshot> getAllUser() async {
+    QuerySnapshot query = await firestore
+        .collection("employee")
+        .orderBy('employee_id', descending: false)
+        .get();
+    return query;
+  }
+
+  Stream<DocumentSnapshot> streamAllPresensi(String uid) async* {
     String todayDocId =
         DateFormat.yMd().format(DateTime.now()).replaceAll("/", "-");
     yield* firestore

@@ -27,6 +27,7 @@ abstract class Routes {
   static const TAMBA_PERIZINAN = _Paths.TAMBA_PERIZINAN;
   static const INFO_APP = _Paths.INFO_APP;
   static const RIWAYAT_PRESENCE_CHOSEN = _Paths.RIWAYAT_PRESENCE_CHOSEN;
+  static const PERIZINAN_CHOSEN = _Paths.PERIZINAN_CHOSEN;
 }
 
 abstract class _Paths {
@@ -53,4 +54,5 @@ abstract class _Paths {
   static const TAMBA_PERIZINAN = '/tamba-perizinan';
   static const INFO_APP = '/info-app';
   static const RIWAYAT_PRESENCE_CHOSEN = '/riwayat-presence-chosen';
+  static const PERIZINAN_CHOSEN = '/perizinan-chosen';
 }

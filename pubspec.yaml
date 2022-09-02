@@ -25,7 +25,7 @@ dependencies:
   flutter_vector_icons: ^1.0.0
   geocoding: 2.0.4
   geolocator: ^7.7.1
-  get: 4.6.1
+  get: 4.6.5
   # google_maps: ^6.2.0
   getwidget: ^2.0.5
   google_ml_kit: ^0.5.0

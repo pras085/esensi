@@ -13,14 +13,10 @@ class DetailPresenceView extends GetView<DetailPresenceController> {
   // final Map<String, dynamic> dataUser = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    DateTime jamMasuk =
-        DateTime.parse(controller.presenceData['masuk']["date"]);
-    DateTime jamKeluar =
-        DateTime.parse(controller.presenceData['keluar']["date"]);
-    log('view ${jamMasuk.hour.toString() + ":" + jamMasuk.minute.toString()}');
-    log('view kluar ${jamKeluar.hour.toString() + ":" + jamKeluar.minute.toString()}');
-    log('con ${controller.jamMasuk.hour.toString() + ":" + controller.jamMasuk.minute.toString()}');
-    log('con ${controller.jamKeluar.hour.toString() + ":" + controller.jamKeluar.minute.toString()}');
+    // log('view ${controller.jamMasuk.hour.toString() + ":" + controller.jamMasuk.minute.toString()}');
+    // log('view kluar ${controller.jamKeluar.hour.toString() + ":" + controller.jamKeluar.minute.toString()}');
+    // log('con ${controller.jamMasukKantor.hour.toString() + ":" + controller.jamMasukKantor.minute.toString()}');
+    // log('con ${controller.jamMasukKantor.hour.toString() + ":" + controller.jamMasukKantor.minute.toString()}');
 
     return Scaffold(
       appBar: AppBar(
@@ -63,7 +59,10 @@ class DetailPresenceView extends GetView<DetailPresenceController> {
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
             decoration: BoxDecoration(
-              color: AppColor.primary,
+              color: (controller.jamMasuk.hour
+                      .isGreaterThan(controller.jamMasukKantor.hour))
+                  ? Colors.red.shade300
+                  : AppColor.primary,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: AppColor.secondaryExtraSoft, width: 1),
             ),
@@ -111,8 +110,9 @@ class DetailPresenceView extends GetView<DetailPresenceController> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  (jamMasuk != null)
-                      ? (jamMasuk.hour.isGreaterThan(controller.jamMasuk.hour))
+                  (controller.jamMasuk != null)
+                      ? (controller.jamMasuk.hour
+                              .isGreaterThan(controller.jamMasukKantor.hour))
                           ? "Terlambat"
                           : "Masuk"
                       : "-",
@@ -144,7 +144,85 @@ class DetailPresenceView extends GetView<DetailPresenceController> {
           SizedBox(height: 24),
           // check out ===========================================
           controller.presenceData["keluar"] == null
-              ? SizedBox()
+              ? Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.red.shade300,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                        color: AppColor.secondaryExtraSoft, width: 1),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Keluar',
+                                style: TextStyle(
+                                  color: AppColor.whiteColor,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                "-",
+                                style: TextStyle(
+                                    color: AppColor.whiteColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                          //presence date
+                          Text(
+                            "${DateFormat.yMMMMEEEEd('id_ID').format(DateTime.parse(controller.presenceData["date"]))}",
+                            style: TextStyle(color: AppColor.whiteColor),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 14),
+                      Text(
+                        'Status',
+                        style: TextStyle(
+                          color: AppColor.whiteColor,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        "Tidak Hadir",
+                        style: TextStyle(
+                            color: AppColor.whiteColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 14),
+                      Text(
+                        'address',
+                        style: TextStyle(
+                          color: AppColor.whiteColor,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        "-",
+                        style: TextStyle(
+                          color: AppColor.whiteColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          height: 150 / 100,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               : Container(
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -196,12 +274,14 @@ class DetailPresenceView extends GetView<DetailPresenceController> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        (jamKeluar.hour
-                                .isGreaterThan(controller.jamKeluar.hour))
-                            ? "Lembur " +
-                                "(${jamKeluar.hour - controller.jamKeluar.hour})" +
-                                " jam"
-                            : "Masuk",
+                        controller.jamKeluar == null
+                            ? "-"
+                            : (controller.jamKeluar.hour.isGreaterThan(
+                                    controller.jamKeluarKantor.hour))
+                                ? "Lembur " +
+                                    "(${controller.jamKeluar.hour - controller.jamKeluarKantor.hour})" +
+                                    " jam"
+                                : "Masuk",
                         style: TextStyle(
                             color: AppColor.secondary,
                             fontSize: 16,

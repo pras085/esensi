@@ -104,6 +104,7 @@ class DaftarKaryawanView extends GetView<DaftarKaryawanController> {
                           Map<String, dynamic> karyawanData =
                               listKaryawan[index].data();
                           // var maxId = karayaw;
+                          // log(karyawanData['employee_id']);
                           return KaryawanTile(
                             karyawanData: karyawanData,
                           );

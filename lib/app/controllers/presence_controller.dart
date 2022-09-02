@@ -147,7 +147,7 @@ class PresenceController extends GetxController {
         Get.back();
         Get.back();
         Get.back();
-        await CustomToast.errorToast('Error', 'Belum memasuki jam Masuk');
+        await CustomToast.errorToast('Error', 'Belum memasuki jam masuk');
       } else if (this.auth.currentUser.uid != faceKaryawn) {
         CustomToast.errorToast('Error', 'Wajah tidak dikenali !');
         Get.back();
@@ -206,50 +206,65 @@ class PresenceController extends GetxController {
     double distance,
     bool in_area,
   ) async {
-    CustomAlertDialog.showPresenceAlert(
-      title: "Presensi Keluar?",
-      message: "Konfirmasi jika ingin\nmelakukan presensi",
-      onCancel: () {
+    var faceKaryawn = _predictUser();
+    if (in_area == false) {
+      print(in_area);
+      CustomToast.errorToast('Error', 'Kamu berada di luar radius kantor !');
+    } else {
+      if (now.hour.isLowerThan(jamKeluar.hour)) {
         Get.back();
         Get.back();
         Get.back();
-        // Get.back();
-      },
-      onConfirm: () async {
-        if (now.hour.isLowerThan(jamMasuk.hour)) {
-          Get.back();
-          Get.back();
-          Get.back();
-          Get.back();
-          Get.back();
-          CustomToast.errorToast('Error', 'Belum memasuki jam keluar');
-        }
         Get.back();
         Get.back();
-        Get.defaultDialog(
-          actions: null,
-          title: "Mohon Tunggu",
-          content: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-        await presenceCollection.doc(todayDocId).update(
-          {
-            "keluar": {
-              "date": DateTime.now().toIso8601String(),
-              "latitude": position.latitude,
-              "longitude": position.longitude,
-              "address": address,
-              "in_area": in_area,
-              "distance": distance,
-            }
+        await CustomToast.errorToast('Error', 'Belum memasuki jam keluar');
+      } else if (this.auth.currentUser.uid != faceKaryawn) {
+        CustomToast.errorToast('Error', 'Wajah tidak dikenali !');
+        Get.back();
+        Get.back();
+      } else {
+        CustomAlertDialog.showPresenceAlert(
+          title: "Presensi Keluar?",
+          message: "Konfirmasi jika ingin\nmelakukan presensi",
+          onCancel: () {
+            Get.back();
+            Get.back();
+            Get.back();
+            Get.back();
+          },
+          onConfirm: () async {
+            Get.back();
+            Get.back();
+
+            Get.defaultDialog(
+              titleStyle: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 10,
+                  color: AppColor.navigationColor),
+              title: "Mohon Tunggu",
+              content: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+            await presenceCollection.doc(todayDocId).update(
+              {
+                "keluar": {
+                  "date": DateTime.now().toIso8601String(),
+                  "latitude": position.latitude,
+                  "longitude": position.longitude,
+                  "address": address,
+                  "in_area": in_area,
+                  "distance": distance,
+                }
+              },
+            );
+            Get.offNamed(Routes.HOME);
+            print('ABSEN BERHASIL');
+            CustomToast.successToast("Success", "success presensi keluar ");
           },
         );
-        Get.offNamed(Routes.HOME);
-        print('ABSEN BERHASIL');
-        CustomToast.successToast("Berhasil", "Melakukan presensi");
-      },
-    );
+      }
+    }
   }
 
   Future<void> processPresence(
@@ -265,7 +280,7 @@ class PresenceController extends GetxController {
     // var faceKaryawan = _predictUser();
 
     bool in_area = false;
-    if (distance <= 200) {
+    if (distance <= 250) {
       in_area = true;
     }
 

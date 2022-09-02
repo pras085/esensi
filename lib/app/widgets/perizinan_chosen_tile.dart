@@ -4,20 +4,18 @@ import 'package:intl/intl.dart';
 import 'package:presence/app/routes/app_pages.dart';
 import 'package:presence/app/style/app_color.dart';
 
-class PerizinanAdminTile extends StatelessWidget {
+class PerizinanChosenTile extends StatelessWidget {
   final Map<String, dynamic> perizinanData;
-  final Map<String, dynamic> dataUser;
-  PerizinanAdminTile({this.perizinanData, this.dataUser});
+  PerizinanChosenTile({this.perizinanData});
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.toNamed(Routes.DETAIL_PERIZINAN,
-          arguments: {"izin": perizinanData, "user": dataUser}),
+      onTap: () =>
+          Get.toNamed(Routes.DETAIL_PERIZINAN, arguments: perizinanData),
       borderRadius: BorderRadius.circular(8),
       child: Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: AppColor.primary.withOpacity(0.3),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             width: 1,
@@ -26,24 +24,23 @@ class PerizinanAdminTile extends StatelessWidget {
         ),
         padding: EdgeInsets.only(left: 24, top: 20, right: 29, bottom: 20),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Nama",
+                      "Masuk",
                       style: TextStyle(fontSize: 12),
                     ),
                     SizedBox(height: 6),
                     Text(
-                      (dataUser["name"] == null)
+                      (perizinanData["masuk"] == null)
                           ? "-"
-                          : dataUser["name"].toString().replaceAll(' ', '\n'),
+                          : "${DateFormat.jm('id_ID').format(DateTime.parse(perizinanData["masuk"]["date"]))}",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -56,14 +53,18 @@ class PerizinanAdminTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Status",
+                      "Keluar",
                       style: TextStyle(fontSize: 12),
                     ),
                     SizedBox(height: 6),
-                    Icon(
-                      Icons.update_outlined,
-                      color: AppColor.navigationColor,
-                      size: 30,
+                    Text(
+                      (perizinanData["keluar"] == null)
+                          ? "-"
+                          : "${DateFormat.jm('id_ID').format(DateTime.parse(perizinanData["keluar"]["date"]))}",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
@@ -72,10 +73,10 @@ class PerizinanAdminTile extends StatelessWidget {
             Text(
               "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(perizinanData["date"]))}",
 
-              // "${DateFormat.yMMMMEEEEd().format(DateTime.parse(presenceData["date"]))}",
+              // "${DateFormat.yMMMMEEEEd().format(DateTime.parse(perizinanData["date"]))}",
               style: TextStyle(
                 fontSize: 10,
-                color: AppColor.navigationColor,
+                color: AppColor.secondarySoft,
               ),
             ),
           ],

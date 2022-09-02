@@ -18,6 +18,8 @@ import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   final pageIndexController = Get.find<PageIndexController>();
+  Map<String, dynamic> user;
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -25,7 +27,7 @@ class ProfileView extends GetView<ProfileController> {
         child: Scaffold(
           backgroundColor: AppColor.secondaryExtraSoft,
           extendBody: true,
-          bottomNavigationBar: CustomBottomNavigationBar(),
+          bottomNavigationBar: CustomBottomNavigationBar(user = user),
           body: StreamBuilder<DocumentSnapshot>(
             stream: controller.streamUser(),
             builder: (context, snapshot) {
